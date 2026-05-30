@@ -229,7 +229,7 @@
   footer small{font-size:.82rem}
 
   /* ===== FLOATING BUTTONS ===== */
-  .float-actions{position:fixed;right:18px;bottom:18px;z-index:90;display:flex;flex-direction:column;gap:12px}
+  .float-actions{position:fixed;right:18px;bottom:96px;z-index:90;display:flex;flex-direction:column;gap:12px}
   .fab{
     width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
     box-shadow:var(--shadow);color:#fff;font-size:24px;transition:transform .2s;font-weight:700
@@ -238,6 +238,65 @@
   .fab.call{background:#22b14c}
   .fab.line{background:#06C755}
   .fab.fb{background:#1877F2}
+
+  /* ===== CHATBOT ===== */
+  .chat-toggle{
+    position:fixed;right:18px;bottom:18px;z-index:95;
+    width:62px;height:62px;border-radius:50%;border:3px solid #fff;
+    background:var(--maroon);box-shadow:var(--shadow);cursor:pointer;
+    display:grid;place-items:center;transition:transform .25s
+  }
+  .chat-toggle:hover{transform:scale(1.08)}
+  .chat-toggle svg{width:38px;height:38px}
+  .chat-toggle .pulse{
+    position:absolute;top:-3px;right:-3px;width:16px;height:16px;border-radius:50%;
+    background:var(--gold);border:2px solid #fff;animation:pulse 2s infinite
+  }
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(201,138,61,.6)}70%{box-shadow:0 0 0 10px rgba(201,138,61,0)}100%{box-shadow:0 0 0 0 rgba(201,138,61,0)}}
+
+  .chat-window{
+    position:fixed;right:18px;bottom:92px;z-index:96;width:340px;max-width:calc(100vw - 36px);
+    max-height:72vh;background:var(--cream);border-radius:22px;overflow:hidden;
+    box-shadow:0 20px 60px rgba(90,58,34,.30);display:flex;flex-direction:column;
+    opacity:0;transform:translateY(20px) scale(.96);pointer-events:none;
+    transition:opacity .3s,transform .3s;transform-origin:bottom right
+  }
+  .chat-window.open{opacity:1;transform:none;pointer-events:auto}
+  .chat-head{
+    background:linear-gradient(135deg,var(--maroon),var(--maroon-deep));color:#fff;
+    padding:16px 18px;display:flex;align-items:center;gap:12px
+  }
+  .chat-head .avatar{
+    width:44px;height:44px;border-radius:50%;background:#fff;flex:none;
+    display:grid;place-items:center;overflow:hidden;border:2px solid var(--gold-soft)
+  }
+  .chat-head .avatar svg{width:34px;height:34px}
+  .chat-head .ht b{font-family:'Chonburi';font-size:1.05rem;display:block;line-height:1.2}
+  .chat-head .ht small{font-size:.72rem;opacity:.85;display:flex;align-items:center;gap:5px}
+  .chat-head .ht small::before{content:"";width:7px;height:7px;border-radius:50%;background:#5fe06a;display:inline-block}
+  .chat-head .close{margin-left:auto;background:none;border:0;color:#fff;font-size:22px;cursor:pointer;opacity:.8;line-height:1}
+  .chat-head .close:hover{opacity:1}
+
+  .chat-body{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
+  .msg{max-width:85%;padding:11px 15px;border-radius:16px;font-size:.92rem;line-height:1.55;animation:msgIn .35s ease}
+  @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{background:#fff;color:var(--ink);border-bottom-left-radius:5px;box-shadow:var(--shadow-sm);align-self:flex-start}
+  .msg.user{background:var(--maroon);color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+  .msg.bot b{color:var(--maroon)}
+  .chat-options{display:flex;flex-direction:column;gap:8px;padding:0 16px 16px}
+  .chat-options button{
+    background:#fff;border:1.5px solid var(--gold-soft);color:var(--brown);
+    padding:11px 14px;border-radius:50px;font-family:'Mali';font-size:.9rem;font-weight:600;
+    cursor:pointer;text-align:left;transition:all .2s
+  }
+  .chat-options button:hover{background:var(--maroon);color:#fff;border-color:var(--maroon);transform:translateX(3px)}
+  .chat-options a.opt-link{
+    display:block;background:var(--gold);border:0;color:#fff;padding:11px 14px;border-radius:50px;
+    font-family:'Mali';font-size:.9rem;font-weight:600;text-align:center;transition:all .2s
+  }
+  .chat-options a.opt-link:hover{background:var(--gold);filter:brightness(1.08);transform:translateY(-2px)}
+  .chat-body::-webkit-scrollbar{width:6px}
+  .chat-body::-webkit-scrollbar-thumb{background:var(--gold-soft);border-radius:3px}
 
   /* reveal on scroll */
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}
@@ -522,10 +581,10 @@
         <h3>โทรศัพท์</h3>
         <p>083-236-5168</p>
       </a>
-      <a href="https://line.me/ti/p/~0610535553" target="_blank" rel="noopener" class="ccard reveal">
+      <a href="https://line.me/R/ti/p/@630isvkp" target="_blank" rel="noopener" class="ccard reveal">
         <div class="ic">💬</div>
         <h3>LINE</h3>
-        <p>061-053-5553</p>
+        <p>@630isvkp</p>
       </a>
       <a href="https://www.facebook.com/PimandPuBakes/" target="_blank" rel="noopener" class="ccard reveal">
         <div class="ic">👍</div>
@@ -543,10 +602,44 @@
 </footer>
 
 <!-- FLOATING ACTIONS -->
-<div class="float-actions">
+<div class="float-actions" id="floatActions">
   <a href="tel:0832365168" class="fab call" aria-label="โทรหาเรา">📞</a>
-  <a href="https://line.me/ti/p/~0610535553" target="_blank" rel="noopener" class="fab line" aria-label="แชท LINE">💬</a>
+  <a href="https://line.me/R/ti/p/@630isvkp" target="_blank" rel="noopener" class="fab line" aria-label="แชท LINE">💬</a>
   <a href="https://www.facebook.com/PimandPuBakes/" target="_blank" rel="noopener" class="fab fb" aria-label="Facebook">f</a>
+</div>
+
+<!-- CHATBOT -->
+<button class="chat-toggle" id="chatToggle" aria-label="เปิดแชท">
+  <span class="pulse"></span>
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 30c0-9.4 8.1-16 18-16s18 6.6 18 16-8.1 16-18 16c-1.9 0-3.7-.2-5.4-.7L18 49l2.3-6.2C16.4 39.9 14 35.3 14 30z" fill="#fff"/>
+    <circle cx="26" cy="30" r="2.4" fill="#7B1E22"/>
+    <circle cx="38" cy="30" r="2.4" fill="#7B1E22"/>
+    <path d="M28 35c1.2 1.2 6.8 1.2 8 0" stroke="#7B1E22" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M19 20l4 4M45 20l-4 4" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<div class="chat-window" id="chatWindow" role="dialog" aria-label="แชทกับร้าน">
+  <div class="chat-head">
+    <span class="avatar">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 36c0-10 7.2-17 16-17s16 7 16 17-7.2 16-16 16-16-6-16-16z" fill="#FBF4E9" stroke="#7B1E22" stroke-width="1.6"/>
+        <path d="M20 24l5 5M44 24l-5 5" stroke="#7B1E22" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="26" cy="35" rx="2.2" ry="2.6" fill="#7B1E22"/>
+        <ellipse cx="38" cy="35" rx="2.2" ry="2.6" fill="#7B1E22"/>
+        <path d="M30 40c.8.9 3.2.9 4 0" stroke="#7B1E22" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M22 22c2-4 6-6 10-6s8 2 10 6" stroke="#7B1E22" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <div class="ht">
+      <b>น้องพิมพ์&ปู</b>
+      <small>พร้อมให้บริการ</small>
+    </div>
+    <button class="close" id="chatClose" aria-label="ปิดแชท">×</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-options" id="chatOptions"></div>
 </div>
 
 <script>
@@ -567,6 +660,92 @@
     if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
   }),{threshold:.15});
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*0.08)+'s';io.observe(el)});
+
+  /* ===== CHATBOT LOGIC ===== */
+  const LINE_URL="https://line.me/R/ti/p/@630isvkp";
+  const FB_URL="https://www.facebook.com/PimandPuBakes/";
+  const TEL="tel:0832365168";
+
+  const flows={
+    menu:{
+      reply:"เมนูของเราอบสดใหม่ทุกวันค่ะ 🧁<br>เริ่มต้นแค่ <b>฿10</b>!<br>• ขนมเปี๊ยะ ฿10/ไส้<br>• เค้กกล้วยหอม / มัฟฟิ่นกล้วย / ขนมปังมันม่วง ฿20<br>• ชิฟฟ่อน / โมจิมันม่วง / สาลี่ทิพย์ ฿25<br>• เค้กส้ม / คัสตาร์ด ฿40<br>• เครปกล้วยหอม ฿60",
+      next:["order","back"]
+    },
+    order:{
+      reply:"รับจัดเบรคตามงบ และรับทำของฝากค่ะ 🎁<br><b>กรุณาสั่งล่วงหน้าอย่างน้อย 2 วัน</b> สำหรับงานจัดเบรค/ของฝาก<br>บอกจำนวนคนและงบประมาณมาได้เลย เดี๋ยวจัดให้ลงตัวค่ะ",
+      next:["contact","back"]
+    },
+    hours:{
+      reply:"ร้านเราออกบูธตามตลาดและรับสั่งล่วงหน้าค่ะ 📍<br>เวลาเปิด-ปิด และทำเลที่ขายในแต่ละวัน สอบถามและเช็กได้ทาง LINE หรือ Facebook ของร้านได้เลยค่ะ",
+      next:["line","back"]
+    },
+    recipe:{
+      reply:"เรามีสอนและขายสูตรขนมโฮมเมดด้วยค่ะ 👩‍🍳<br>ทุกสูตรทำขายได้จริง สอนละเอียดทุกขั้นตอน เลือกเรียนเฉพาะเมนู หรือเป็นคอร์สก็ได้<br>สนใจทักมาสอบถามรายละเอียดและราคาได้เลยค่ะ",
+      next:["line","back"]
+    },
+    contact:{
+      reply:"ติดต่อสั่งซื้อได้หลายช่องทางเลยค่ะ 😊 เลือกกดได้เลย:",
+      next:["line","call","fb","back"]
+    }
+  };
+
+  const labels={
+    menu:"🧁 ดูเมนูและราคา",
+    order:"🎁 สั่งจัดเบรค / ของฝาก",
+    hours:"📍 เวลาเปิด / ที่อยู่ร้าน",
+    recipe:"👩‍🍳 สอบถามเรื่องสูตรขนม",
+    contact:"📞 ช่องทางติดต่อ",
+    back:"↩️ กลับเมนูหลัก",
+    line:{link:LINE_URL,text:"💬 แชท LINE"},
+    call:{link:TEL,text:"📞 โทรเลย 083-236-5168"},
+    fb:{link:FB_URL,text:"👍 Facebook"}
+  };
+
+  const body=document.getElementById('chatBody');
+  const opts=document.getElementById('chatOptions');
+  const win=document.getElementById('chatWindow');
+  const toggle=document.getElementById('chatToggle');
+  const floatA=document.getElementById('floatActions');
+
+  function addMsg(text,who){
+    const m=document.createElement('div');
+    m.className='msg '+who;m.innerHTML=text;
+    body.appendChild(m);body.scrollTop=body.scrollHeight;
+  }
+  function renderOptions(keys){
+    opts.innerHTML='';
+    keys.forEach(k=>{
+      const l=labels[k];
+      if(typeof l==='object'){
+        const a=document.createElement('a');
+        a.className='opt-link';a.href=l.link;a.textContent=l.text;
+        a.target='_blank';a.rel='noopener';opts.appendChild(a);
+      }else{
+        const b=document.createElement('button');
+        b.textContent=l;b.onclick=()=>choose(k);opts.appendChild(b);
+      }
+    });
+  }
+  function mainMenu(){renderOptions(['menu','order','hours','recipe','contact']);}
+  function choose(key){
+    const l=labels[key];
+    addMsg(typeof l==='object'?l.text:l,'user');
+    if(key==='back'){setTimeout(()=>{addMsg("เลือกเรื่องที่อยากสอบถามได้เลยค่ะ 😊",'bot');mainMenu();},300);return;}
+    const f=flows[key];
+    if(f){setTimeout(()=>{addMsg(f.reply,'bot');renderOptions(f.next);},350);}
+  }
+  let started=false;
+  function openChat(){
+    win.classList.add('open');floatA.style.display='none';
+    if(!started){
+      started=true;
+      addMsg("สวัสดีค่ะ! 🐱 ยินดีต้อนรับสู่ <b>Pim&Pu Bakes</b><br>มีอะไรให้น้องช่วยไหมคะ?",'bot');
+      mainMenu();
+    }
+  }
+  function closeChat(){win.classList.remove('open');floatA.style.display='';}
+  toggle.addEventListener('click',()=>win.classList.contains('open')?closeChat():openChat());
+  document.getElementById('chatClose').addEventListener('click',closeChat);
 </script>
 </body>
 </html>
