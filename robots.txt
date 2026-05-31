@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://noteaa16-collab.github.io/pimpu-bakes/sitemap.xml
